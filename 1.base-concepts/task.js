@@ -1,6 +1,6 @@
 'use strict';
 function solveEquation(a, b, c) {
-  let arr;
+  let arr=[];
   let d = Math.pow(b, 2) - 4*a*c;
 
   if (d < 0) {
@@ -14,20 +14,30 @@ function solveEquation(a, b, c) {
 }
 
 function calculateTotalMortgage(percent, contribution, amount, date) {
-  let totalAmount;
+  let totalAmount, monthlyAmount;
   const now = new Date();
   let n = (date.getFullYear() - now.getFullYear())*12 + Math.abs(date.getMonth() - now.getMonth());
   let S = amount - contribution;
-  let P = ((percent)/12)/100;
-  console.log(P);
-  let monthlyAmount;
+  let P = ((percent)/100)/12;
+  
 
-  if (P > 0 && P < 1) {
-    monthlyAmount = S*(P + (P/((Math.pow((1 + P) , n)) - 1)));  
+  if (isNaN(percent)) {
+    return `Параметр "Процентная ставка" содержит неправильное значение "${percent}"`;
   }
 
-  console.log(monthlyAmount);
-  
+  if (isNaN(contribution)) {
+    return `Параметр "Начальный взнос" содержит неправильное значение "${contribution}"`;
+  }
+
+  if (isNaN(amount)) {
+    return `Параметр "Общая стоимость" содержит неправильное значение "${amount}"`;
+  }
+
+  if (date <= now) {
+    return `Параметр "Дата" содержит неправильное значение "${date}"`;
+  }
+
+  monthlyAmount = S*(P + (P/((Math.pow((1 + P) , n)) - 1)));  
   totalAmount = monthlyAmount*n;
-  return totalAmount.toFixed(2);
+  return +totalAmount.toFixed(2);
 }
