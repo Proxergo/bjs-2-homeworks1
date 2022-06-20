@@ -12,20 +12,18 @@ class AlarmClock {
         if (id == undefined) {
             throw new Error('Не передан идентификатор таймера!');
         } else if (this.alarmCollection.find(item => item.id === id) !== undefined) {
-            throw console.error('Такой будильник уже есть!')
+            console.error('Такой будильник уже есть!')
         } else {
             return this.alarmCollection.push({time, callback, id});
         }
     }
 
-    removeClock(id) {
-        this.alarmCollection = this.alarmCollection.filter(item => item.id !== id);
-       
-       if (this.alarmCollection === undefined) {
-            return false;
-       } 
 
-       return true;
+    removeClock(id) {
+        
+        let filter = this.alarmCollection.filter(item => item.id !== id);
+        this.alarmCollection = filter;
+        return true;
     }
 
     getCurrentFormattedTime() {
@@ -64,7 +62,7 @@ class AlarmClock {
 
     clearAlarms() {
         this.stop();
-        this.timerId = [];
+        this.alarmCollection = [];
     }
 }
 
